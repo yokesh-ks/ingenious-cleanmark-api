@@ -1,0 +1,77 @@
+const SERVICE_USER_AGENT = "Urltomarkdown/1.0";
+const DEFAULT_TIMEOUT_MS = 15 * 1000;
+
+/**
+ * Fetch URL with timeout
+ * @param {string} url - The URL to fetch
+ * @param {object} options - Fetch options
+ * @param {number} options.timeout - Timeout in milliseconds
+ * @returns {Promise<string>} - The response text
+ */
+export async function fetchUrl(url, options = {}) {
+	const timeout = options.timeout ?? DEFAULT_TIMEOUT_MS;
+	const controller = new AbortController();
+	const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+	try {
+		const response = await fetch(url, {
+			headers: {
+				"User-Agent": SERVICE_USER_AGENT,
+				...options.headers,
+			},
+			signal: controller.signal,
+		});
+
+		clearTimeout(timeoutId);
+
+		if (!response.ok) {
+			const error = new Error(`HTTP ${response.status}`);
+			error.status = response.status;
+			throw error;
+		}
+
+		return await response.text();
+	} catch (error) {
+		clearTimeout(timeoutId);
+		throw error;
+	}
+}
+
+/**
+ * Fetch URL and return response with metadata
+ * @param {string} url - The URL to fetch
+ * @param {object} options - Fetch options
+ * @returns {Promise<{text: string, status: number, headers: Headers}>}
+ */
+export async function fetchUrlWithMetadata(url, options = {}) {
+	const timeout = options.timeout ?? DEFAULT_TIMEOUT_MS;
+	const controller = new AbortController();
+	const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+	try {
+		const response = await fetch(url, {
+			headers: {
+				"User-Agent": SERVICE_USER_AGENT,
+				...options.headers,
+			},
+			signal: controller.signal,
+		});
+
+		clearTimeout(timeoutId);
+
+		if (!response.ok) {
+			const error = new Error(`HTTP ${response.status}`);
+			error.status = response.status;
+			throw error;
+		}
+
+		return {
+			text: await response.text(),
+			status: response.status,
+			headers: response.headers,
+		};
+	} catch (error) {
+		clearTimeout(timeoutId);
+		throw error;
+	}
+}

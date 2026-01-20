@@ -1,0 +1,7 @@
+name = "url-to-markdown"
+main = "src/index.js"
+compatibility_date = "2024-12-30"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
