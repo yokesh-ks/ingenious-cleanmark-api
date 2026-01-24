@@ -4,6 +4,8 @@ import { fetchUrl } from "../utils/fetch.js";
 import { isValidUrl } from "../utils/url.js";
 
 const FAILURE_MESSAGE = "Sorry, could not fetch and convert that URL";
+const BLOCKED_MESSAGE =
+	"This website blocks automated access. Try a different URL.";
 
 /**
  * CORS headers for responses
@@ -113,11 +115,13 @@ export async function handleGetConvert(url) {
 
 		return createMarkdownResponse(cleanedMarkdown, title);
 	} catch (error) {
+		const is403 = error.message?.includes("403");
 		const status = error.message?.includes("HTTP") ? 502 : 504;
+		const errorMsg = is403 ? BLOCKED_MESSAGE : FAILURE_MESSAGE;
 		const details = error.message?.includes("HTTP")
 			? ` as the website returned ${error.message}`
 			: "";
-		return createErrorResponse(`${FAILURE_MESSAGE}${details}`, status);
+		return createErrorResponse(`${errorMsg}${details}`, status);
 	}
 }
 
@@ -144,10 +148,11 @@ export async function handlePostConvert(request) {
 			try {
 				html = await fetchUrl(targetUrl);
 			} catch (error) {
+				const is403 = error.message?.includes("403");
 				const status = error.message?.includes("HTTP") ? 502 : 504;
 				return new Response(
 					JSON.stringify({
-						error: FAILURE_MESSAGE,
+						error: is403 ? BLOCKED_MESSAGE : FAILURE_MESSAGE,
 						details: error.message,
 					}),
 					{

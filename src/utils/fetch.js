@@ -9,6 +9,11 @@ const DEFAULT_HEADERS = {
 	"Accept-Encoding": "gzip, deflate, br",
 	Connection: "keep-alive",
 	"Upgrade-Insecure-Requests": "1",
+	Referer: "https://www.google.com/",
+	"Sec-Fetch-Dest": "document",
+	"Sec-Fetch-Mode": "navigate",
+	"Sec-Fetch-Site": "cross-site",
+	"Sec-Fetch-User": "?1",
 };
 
 /**
