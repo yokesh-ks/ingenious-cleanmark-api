@@ -1,0 +1,131 @@
+{
+  "version": "1",
+  "type": "collection",
+  "uid": "bruno-collection",
+  "name": "Ingenious Cleanmark API",
+  "description": "API endpoints for URL to Markdown conversion",
+  "items": [
+    {
+      "type": "http-request",
+      "uid": "health-check",
+      "name": "Health Check",
+      "description": "Check if the API is running",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8787/health"
+      }
+    },
+    {
+      "type": "http-request",
+      "uid": "convert-url",
+      "name": "Convert URL to Markdown",
+      "description": "Convert a URL to Markdown format",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8787/convert",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "contentType": "application/json",
+          "data": {
+            "url": "https://example.com",
+            "options": {
+              "format": "markdown",
+              "includeImages": true,
+              "includeTables": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "http-request",
+      "uid": "convert-medium",
+      "name": "Convert Medium Article",
+      "description": "Test conversion with Medium article",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8787/convert",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "contentType": "application/json",
+          "data": {
+            "url": "https://medium.com/example-article",
+            "options": {
+              "format": "markdown",
+              "includeImages": true,
+              "includeTables": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "http-request",
+      "uid": "convert-stackoverflow",
+      "name": "Convert Stack Overflow Question",
+      "description": "Test conversion with Stack Overflow question",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8787/convert",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "contentType": "application/json",
+          "data": {
+            "url": "https://stackoverflow.com/questions/example",
+            "options": {
+              "format": "markdown",
+              "includeImages": false,
+              "includeTables": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "http-request",
+      "uid": "convert-wikipedia",
+      "name": "Convert Wikipedia Article",
+      "description": "Test conversion with Wikipedia article",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8787/convert",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "contentType": "application/json",
+          "data": {
+            "url": "https://en.wikipedia.org/wiki/Example",
+            "options": {
+              "format": "markdown",
+              "includeImages": true,
+              "includeTables": true
+            }
+          }
+        }
+      }
+    }
+  ]
+}
