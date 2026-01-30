@@ -22,4 +22,4 @@ npm run format
 
 ## License
 
-ISC
+MIT
